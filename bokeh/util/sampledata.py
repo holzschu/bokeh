@@ -161,7 +161,13 @@ def _bokeh_dir(create: bool = False) -> str:
     '''
 
     '''
-    bokeh_dir = join(expanduser("~"), ".bokeh")
+    # iOS: store data in ~/Documents/.bokeh
+    import sys
+    import os
+    if (sys.platform == "darwin" and os.uname().machine.startswith("iP")):
+        bokeh_dir = join(expanduser("~"), "Documents/.bokeh")
+    else:
+        bokeh_dir = join(expanduser("~"), ".bokeh")
     if not exists(bokeh_dir):
         if not create: return bokeh_dir
         print("Creating %s directory" % bokeh_dir)
